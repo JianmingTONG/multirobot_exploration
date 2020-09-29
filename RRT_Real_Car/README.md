@@ -45,7 +45,7 @@ roslaunch xtark_nav xtark_mapping_cartographer_robot1_jianming.launch
 
 // New Terminal Connect to robot2
 ssh xtark@<robot2_ip>
-roslaunch xtark_nav xtark_mapping_cartographer_robot1_jianming.launch
+roslaunch xtark_nav xtark_mapping_cartographer_robot2_jianming.launch
 
 // New Terminal
 roslaunch mapmerge mapmerge_real_two_cars.launch
@@ -55,4 +55,19 @@ roslaunch rrt_exploration_real_two_cars two_robots_real_car.launch
 
 ```
 
+
+
+For single robot
+```
+// New Terminal Connect to robot1
+ssh xtark@<robot1_ip>
+roslaunch xtark_nav xtark_mapping_cartographer_robot1_jianming.launch
+
+// New Terminal
+roslaunch mapmerge mapmerge_real_single_cars.launch
+
+// New Terminal
+roslaunch rrt_exploration_real_two_cars single_rrt_node.launch
+
+```
 Have Fun :)
