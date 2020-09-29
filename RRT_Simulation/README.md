@@ -117,20 +117,9 @@ roslaunch rrt_exploration single_sim_python_multi_node.launch
 roslaunch rrt_exploration_tutorials multiple_simulated_house.launch
 
 // Terminal 2
-roslaunch mapmerge mapmerge_sim_two_cars_twomaps.launch
+roslaunch rrt_exploration single_multi_python_multi_node.launch
 
-// Terminal 3
-roslaunch rrt_exploration two_robots_jianming.launch
-
-// click two points in RVIZ which are the diagonal points of the rectangle region to explore
-// click one goal point in RVIZ to setup the goal of the robot.
-
-// You can also uncomment spawn-robot3 & transform between robot3 and robot1 in multiple_simulated_house.launch and then run the following code to start three robots simulation.
-// Terminal 1
-roslaunch rrt_exploration_tutorials multiple_simulated_house.launch
-
-// Terminal 2
-roslaunch rrt_exploration three_robots.launch
+// click one points at any place in RVIZ to start the exploration.
 ```
 
 Have Fun :)
