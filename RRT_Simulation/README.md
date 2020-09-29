@@ -86,7 +86,7 @@ roslaunch rrt_exploration  two_sim_rrt_node.launch
 
 // click one points at any place in RVIZ to start the exploration.
 ```
-![cpp_multirobots.png](https://github.com/JianmingTONG/multirobot_rrt_exploration/tree/master/RRT_Simulation/image/cpp_two_robots.png)
+![cpp_multirobots.png](./image/cpp_two_robots.png)
 
 
 For single car
@@ -99,7 +99,7 @@ roslaunch rrt_exploration  two_sim_rrt_node.launch
 
 // click one points at any place in RVIZ to start the exploration.
 ```
-![cpp_singlerobots.png](https://github.com/JianmingTONG/multirobot_rrt_exploration/tree/master/RRT_Simulation/image/cpp_one_robot.png)
+![cpp_singlerobots.png](./image/cpp_one_robot.png)
 
 ## python Version RRT Exploration
 The python version is easy to debug since it will directly complain the kind of errors and warnings when programs die. Therefore, it's easy for beginner to understand what the exploration system has been doing.
@@ -114,7 +114,7 @@ roslaunch rrt_exploration single_sim_python_multi_node.launch
 
 // click one points at any place in RVIZ to start the exploration.
 ```
-![python_singlerobot.png](https://github.com/JianmingTONG/multirobot_rrt_exploration/tree/master/RRT_Simulation/image/python_one_robot.png)
+![python_singlerobot.png](./image/python_one_robot.png)
 
 
 ### Multiple Robots Simulation in house (two robot)
@@ -127,7 +127,7 @@ roslaunch rrt_exploration single_multi_python_multi_node.launch
 
 // click one points at any place in RVIZ to start the exploration.
 ```
-![python_twoobots.png](https://github.com/JianmingTONG/multirobot_rrt_exploration/tree/master/RRT_Simulation/image/python_two_robots.png)
+![python_twoobots.png](./image/python_two_robots.png)
 
 
 Have Fun :)
