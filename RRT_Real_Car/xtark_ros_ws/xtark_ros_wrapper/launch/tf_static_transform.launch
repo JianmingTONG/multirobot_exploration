@@ -1,0 +1,6 @@
+<launch>
+    <arg name="namespace" default="robot1"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_laser" args="0.1 0 0.1 3.1415926 0 0 $(arg namespace)/base_footprint $(arg namespace)/laser 10" />
+   <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_camera" args="0.10 0 0.10 0 0 0 $(arg namespace)/base_footprint $(arg namespace)/camera_link 10" /> 
+   <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_imu" args="0 0 0.05 1.57 0 0 $(arg namespace)/base_footprint $(arg namespace)/base_imu_link 10" />
+</launch>

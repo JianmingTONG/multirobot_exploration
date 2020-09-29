@@ -1,0 +1,4 @@
+xtark_mapping_cartographer_robot1_jianming_yujc.launch 为在实际车上无bug运行exploration后 原有camera -> uvc camera rgb + depth
+
+xtark_mapping_cartographer_robot1_rrt_node_jianming_yujc.launch 为在实际车上无bug运行exploration后 原有camera -> uvc camera rgb + depth + 将cartographer输出地图名称更改为cartographer_map
+

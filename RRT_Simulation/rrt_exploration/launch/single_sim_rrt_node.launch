@@ -1,0 +1,34 @@
+<!-- Launch file for the rrt-detector and the assigner -->
+
+
+<launch>
+  <arg name="eta" value="1.0"/>
+  <arg name="Geta" value="1.0"/>
+  <arg name="namespace" value="robot1"/>
+  <param name="namespace_init_count" value="1"/>
+
+
+  <node pkg="rrt_exploration" type="rrt_node" name="robot1_rrt" output="screen">
+    <param name="eta" value="$(arg eta)"/>
+    <param name="map_topic" value="robot1/map"/>
+    <param name="costmap_topic" value="robot1/move_base_node/global_costmap/costmap"/>
+    <param name="frontier_topic" value="$(arg namespace)/frontiers"/>
+    <param name="robot_frame" value="$(arg namespace)/map"/>
+    <param name="robot_base_frame" value="$(arg namespace)/base_link"/>
+    <param name="info_radius" value="1"/> 
+    <param name="costmap_pixel_threshold" value="0"/> 
+    <param name="namespace" value="$(arg namespace)"/> 
+    <param name="n_robots" value="1"/>
+    <param name="rate" value="100"/>
+  </node>
+
+<!-- <node pkg="rrt_exploration" type="robot_goal_driver.py" name="robot1_goal_driver" output="screen">
+    <param name="robot_id" value="1"/>
+    <param name="goal_topic" value="$(arg namespace)/rrt_goal"/>
+  </node> -->
+
+
+</launch>
+
+
+

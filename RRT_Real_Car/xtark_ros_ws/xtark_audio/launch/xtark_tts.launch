@@ -1,0 +1,5 @@
+<launch>
+	<node name="xtark_tts" pkg="xtark_audio" type="xtark_tts.py" output="screen" respawn="true">
+		<rosparam file="$(find xtark_audio)/config/xtark_audio.yaml" command="load"/>
+	</node>
+</launch>

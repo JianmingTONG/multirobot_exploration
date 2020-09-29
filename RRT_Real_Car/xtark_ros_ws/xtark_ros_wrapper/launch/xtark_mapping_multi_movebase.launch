@@ -1,0 +1,21 @@
+<launch>
+  <param name="/use_sim_time" value="false" />
+  <arg name="robotname" default="robot1"/>
+
+  <group ns="$(arg robotname)">
+    <include file="$(find xtark_ros_wrapper)/launch/xtark_bringup_robot1.launch" >
+      <arg name="robotname" value="$(arg robotname)"/>
+    </include>
+    <include file="$(find xtark_ros_wrapper)/launch/xtark_mapping_cartographer_core.launch" >
+      <arg name="robotname" value="$(arg robotname)"/>
+    </include>
+  
+    <!-- 启动路径规划算法包 -->
+    <include file="$(find xtark_nav)/launch/include/teb_move_base_omni_robot1.launch"/>
+
+</group>
+
+    <node pkg="xtark_ros_wrapper" type="robot1.py" name="robot1_node" output="screen">  
+    </node>
+    
+</launch>

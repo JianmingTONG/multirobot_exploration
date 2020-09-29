@@ -1,0 +1,8 @@
+<launch>
+ <node pkg="xtark_ros_wrapper" type="odom_ekf_jianming.py" name="odom_ekf_node" output="screen">
+      <param name="child_frame_id"  type="string" value="$(arg namespace)/base_footprint"/>
+
+      <remap from="input" to="odom_combined"/>
+      <remap from="output" to="odom"/>
+   </node>
+<

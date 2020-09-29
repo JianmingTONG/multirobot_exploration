@@ -1,0 +1,8 @@
+<launch>
+	<include file="$(find xtark_nav_depthcamera)/launch/Driver/RTAB_Driver/xtark_bringup_depthcameraRTAB.launch" />
+	<include file="$(find rtabmap_ros)/launch/demo/demo_xtark_navigation.launch" />
+        
+	
+	
+
+</launch>

@@ -1,0 +1,43 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/xtark/cartographer_ws/install_isolated/include/**",
+                "/home/xtark/ros_ws/devel/include/**",
+                "/opt/ros/melodic/include/**",
+                "/home/xtark/ros_ws/src/third_packages/ORB_SLAM/include/**",
+                "/home/xtark/ros_ws/src/third_packages/ros_astra_camera/include/**",
+                "/home/xtark/ros_ws/src/third_packages/depthimage_to_laserscan/include/**",
+                "/home/xtark/ros_ws/src/third_packages/frontier_exploration/exploration_server/include/**",
+                "/home/xtark/ros_ws/src/third_packages/frontier_exploration/frontier_exploration/include/**",
+                "/home/xtark/ros_ws/src/third_packages/imu_calib/include/**",
+                "/home/xtark/ros_ws/src/third_packages/frontier_exploration/polygon_layer/include/**",
+                "/home/xtark/ros_ws/src/third_packages/rf2o_laser_odometry/include/**",
+                "/home/xtark/ros_ws/src/third_packages/sc_mini/include/**",
+                "/home/xtark/ros_ws/src/third_packages/world_canvas/warehouse_ros/include/**",
+                "/home/xtark/ros_ws/src/third_packages/world_canvas/warehouse_ros_mongo/include/**",
+                "/home/xtark/ros_ws/src/third_packages/world_canvas/world_canvas_libs/world_canvas_client_cpp/include/**",
+                "/home/xtark/ros_ws/src/xtark_apps/xtark_app/include/**",
+                "/home/xtark/ros_ws/src/xtark_cv/xtark_ar_track/include/**",
+                "/home/xtark/ros_ws/src/xtark_ctl/include/**",
+                "/home/xtark/ros_ws/src/xtark_apps/xtark_laser_follower/include/**",
+                "/home/xtark/ros_ws/src/xtark_cv/xtark_line_follower/include/**",
+                "/home/xtark/ros_ws/src/xtark_cv/xtark_motion_detector/include/**",
+                "/home/xtark/ros_ws/src/xtark_nav/include/**",
+                "/home/xtark/ros_ws/src/xtark_nav_depthcamera/include/**",
+                "/home/xtark/ros_ws/src/xtark_cv/xtark_opencv/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14"
+        }
+    ],
+    "version": 4
+}

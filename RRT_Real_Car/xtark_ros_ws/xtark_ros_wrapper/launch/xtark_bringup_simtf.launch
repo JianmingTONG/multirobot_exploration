@@ -1,0 +1,22 @@
+<launch>
+  
+  <arg name="camera" default="camera" />
+  <arg name="robotname" default="" />
+
+  <arg name="pi/2" value="1.5707963267948966" />
+  <arg name="optical_rotate" value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
+
+  <node pkg="tf" type="static_transform_publisher" name="$(arg camera)_base_link"
+    args="0 -0.02  0 0 0 0 $(arg robotname)/$(arg camera)_link $(arg robotname)/$(arg camera)_depth_frame 10" />  
+  <node pkg="tf" type="static_transform_publisher" name="$(arg camera)_base_link1"
+    args="0 -0.045 0 0 0 0 $(arg robotname)/$(arg camera)_link $(arg robotname)/$(arg camera)_rgb_frame 10" />  
+  <node pkg="tf" type="static_transform_publisher" name="$(arg camera)_base_link2"
+    args="$(arg optical_rotate) $(arg robotname)/$(arg camera)_depth_frame $(arg robotname)/$(arg camera)_depth_optical_frame  10" />  
+  <node pkg="tf" type="static_transform_publisher" name="$(arg camera)_base_link3"
+    args="$(arg optical_rotate) $(arg robotname)/$(arg camera)_rgb_frame $(arg robotname)/$(arg camera)_rgb_optical_frame 10" /> 
+
+  <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_imu" args="0 0 0.05 1.57 0 0 $(arg robotname)/base_footprint $(arg robotname)/base_imu_link 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_foot_print_to_laser" args="0.1 0 0.1 3.1415926 0 0 $(arg robotname)/base_footprint $(arg robotname)/laser 20"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_camera" args="0.10 0 0.10 0 0 0 $(arg robotname)/base_footprint $(arg robotname)/camera_link 20"/>
+
+</launch>

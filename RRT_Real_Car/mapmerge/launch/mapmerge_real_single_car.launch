@@ -1,0 +1,22 @@
+<launch>
+
+
+<node pkg="mapmerge" type="mapmerge_node" name="map_merge" output="screen" >
+	<param name="robot1_x" value="0.0" />
+	<param name="robot1_y" value="0.0" />
+	<param name="resolution" value="0.05" />
+	<param name="map_width" value="500" />
+	<param name="map_height" value="500" />
+</node>
+
+  <!-- <node pkg="mapmerge" type="mapmerge_costmap_node" name="map_merge_costmap" output="screen" >
+	<param name="robot1_x" value="0.0" />
+	<param name="robot2_x" value="0.0" />
+	<param name="resolution" value="0.05" />
+	<param name="map_width" value="500" />
+	<param name="map_height" value="500" />
+	<param name="robot1costmap" value="/robot1/move_base/global_costmap/costmap" />
+	
+</node> -->
+
+</launch>

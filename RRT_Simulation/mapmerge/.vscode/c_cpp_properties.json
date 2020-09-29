@@ -1,0 +1,43 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/jimmy/Package/turtlebot_ws/devel/include/**",
+                "/home/jimmy/Package/rocon/install/include/**",
+                "/home/jimmy/work/ROS_work/RRT_ws/devel/include/**",
+                "/opt/ros/melodic/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/depthimage_to_laserscan/include/**",
+                "/home/jimmy/Package/map_merge/src/explore/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/kobuki_auto_docking/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/kobuki_bumper2pc/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/kobuki_controller_tutorial/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/kobuki_desktop/kobuki_gazebo_plugins/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/kobuki_keyop/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/kobuki_node/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/kobuki_random_walker/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/kobuki_safety_controller/include/**",
+                "/home/jimmy/work/ROS_work/RRT_ws/src/mapmerge/include/**",
+                "/home/jimmy/Package/map_merge/src/map_merge/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/robot_pose_ekf/include/**",
+                "/home/jimmy/work/ROS_work/RRT_ws/src/rrt_exploration/include/**",
+                "/home/jimmy/work/ROS_work/RRT_ws/src/rrt_exploration_real_car/include/**",
+                "/home/jimmy/work/ROS_work/RRT_ws/src/rrt_exploration_real_two_cars/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/turtlebot_apps/turtlebot_actions/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/kobuki_desktop/joystick_drivers/wiimote/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/yocs_cmd_vel_mux/include/**",
+                "/home/jimmy/Package/turtlebot_ws/src/yocs_controllers/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/home/jimmy/Package/Xilinx/Vitis/2020.1/gnu/aarch32/lin/gcc-arm-none-eabi/bin/arm-none-eabi-gcc",
+            "cStandard": "gnu18",
+            "cppStandard": "gnu++14"
+        }
+    ],
+    "version": 4
+}

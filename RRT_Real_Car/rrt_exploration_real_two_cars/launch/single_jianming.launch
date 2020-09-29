@@ -1,0 +1,94 @@
+<!-- Launch file for the rrt-detector and the assigner -->
+
+
+<launch>
+<arg name="eta" value="1.0"/>
+<arg name="Geta" value="1.0"/>
+<param name="namespace_init_count" value="1"/>
+
+
+  <!-- <node pkg="rrt_exploration_real_two_cars" type="global_rrt_detector_real_two_cars" name="global_rrt_detector" output="screen">
+    <param name="eta" value="$(arg Geta)"/>
+    <param name="map_topic" value="map_merge/map"/>
+  </node>
+   -->
+
+  <node pkg="rrt_exploration_real_two_cars" type="local_rrt_detector_real_two_cars" name="robot1_rrt_detector" output="screen">
+    <param name="eta" value="$(arg eta)"/>
+    <param name="map_topic" value="map_merge/map"/>
+    <param name="robot_frame" value="robot1/base_footprint"/>
+    <param name="rate" value="100"/>
+  </node>
+  
+  <!-- <node pkg="rrt_exploration_real_two_cars" type="local_rrt_detector_real_two_cars" name="robot2_rrt_detector" output="screen">
+    <param name="eta" value="$(arg eta)"/>
+    <param name="map_topic" value="map_merge/map"/>
+    <param name="robot_frame" value="robot2/base_footprint"/>
+    <param name="rate" value="10"/>
+  </node> -->
+
+<!-- 
+  <node pkg="rrt_exploration_real_two_cars" type="filter.py" name="filter" output="screen">
+    <param name="map_topic" value="/map_merge/map"/>
+    <param name="info_radius" value="1"/> 
+    <param name="costmap_clearing_threshold" value="45"/> 
+    <param name="goals_topic" value="/detected_points"/> 
+    <param name="n_robots" value="2"/>
+    <param name="namespace" value="/robot"/>
+    <param name="rate" value="100"/>
+  </node> -->
+  
+<node pkg="rrt_exploration_real_two_cars" type="filter_jianming.py" name="filter" output="screen">
+    <param name="map_topic" value="map_merge/map"/>
+    <param name="costmap_topic" value="map_merge/costmap"/>
+    <param name="frontier_topic" value="detected_points"/>
+    <param name="n_robots" value="1"/>
+    <param name="rateHZ" value="2"/>
+    <param name="namespace" value="robot"/>
+    <param name="robot_frame" value="base_footprint"/>
+    <param name="info_radius" value="1.0"/> 
+    <param name="costmap_pixel_threshold" value="10"/> 
+  </node>
+
+<!-- <node pkg="mapmerge" type="mapmerge_node" name="map_merge" output="screen" >
+	<param name="robot1_x" value="0.0" />
+	<param name="robot2_x" value="-0.8" />
+	<param name="robot1_y" value="0.0" />
+	<param name="robot2_y" value="0.0" />
+</node> -->
+<!-- 
+  <node pkg="rrt_exploration_real_two_cars" type="assigner.py" name="assigner" output="screen">
+    <param name="map_topic" value="/map_merge/map"/>
+    <param name="global_frame" value="robot1/map"/>
+    <param name="info_radius" value="1"/> 
+    <param name="info_multiplier" value="3.0"/> 
+    <param name="hysteresis_radius" value="3.0"/> 
+    <param name="hysteresis_gain" value="2.0"/> 
+    <param name="frontiers_topic" value="/filtered_points"/> 
+    <param name="n_robots" value="2"/>
+    <param name="namespace" value="/robot"/>
+    <param name="delay_after_assignement" value="0.5"/>
+    <param name="rate" value="100"/>
+  </node> -->
+
+  <node pkg="rrt_exploration_real_two_cars" type="assigner_jianming.py" name="assigner" output="screen">
+    <param name="global_frame" value="robot1/map"/>
+    <param name="map_topic" value="map_merge/map"/>
+    <param name="frontiers_topic" value="filtered_points"/> 
+    <param name="n_robots" value="1"/>
+    <param name="namespace" value="robot"/>
+    <param name="namespace_init_count" value="1"/>
+    <param name="rate" value="2"/>
+    <param name="mini_step" value="0.3"/>
+  </node>
+
+  <!-- run RViz node (visualization) -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find rrt_exploration_real_two_cars)/rviz/single_car.rviz">
+  <!-- <remap from="move_base_simple/goal" to="robot1/move_base_simple/goal"/> -->
+  </node>
+
+
+</launch>
+
+
+

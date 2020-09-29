@@ -1,0 +1,16 @@
+<launch>
+  <param name="/use_sim_time" value="true" />
+  <arg name="robotname" default="robot2"/>
+
+  <group ns="$(arg robotname)">
+      <include file="$(find xtark_ros_wrapper)/launch/xtark_bringup_simtf.launch">
+        <arg name="robotname" value="$(arg robotname)"/>
+        <arg name="camera" value="camera" />
+      </include>
+
+      <include file="$(find xtark_ros_wrapper)/launch/xtark_mapping_cartographer_core.launch" >
+      <arg name="robotname" value="$(arg robotname)"/>
+    </include>
+  </group>
+  
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+<arg name="robotname" default="robot1"/>
+<node pkg="xtark_nav" type="cartographer_node" name="cartographer2discrete" output="screen"/>
+<remap from="/map" to="$(arg robotname)/map" />
+</launch>

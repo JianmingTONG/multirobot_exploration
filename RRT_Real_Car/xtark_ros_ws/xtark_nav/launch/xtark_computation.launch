@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find xtark_nav)/launch/include/teb_move_base_omni.launch"/>
+    
+	<node pkg="xtark_nav" type="cartographer_node" name="cartographer2discrete" output="screen"/>
+</launch>

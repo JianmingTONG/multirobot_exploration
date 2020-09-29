@@ -1,0 +1,53 @@
+<launch>
+
+    <param name="use_sim_time" value="false"/>
+    <arg name="lidar_type" value="$(env LIDAR_TYPE)"/>
+    <arg name="robotname" default="robot1"/>
+
+    <!-- 启动xtark_ros_wrapper驱动包 -->
+    <node name="xtark_ros_wrapper" pkg="xtark_ros_wrapper" type="xtark_ros_wrapper_node.py" output="screen" respawn="true">
+      <rosparam file="$(find xtark_ros_wrapper)/config/xtark_params.yaml" command="load"/>
+    	<remap from="odom" to="odom_raw"/>
+      <param name="odom_frame" value="$(arg robotname)/odom"/>
+      <param name="base_footprint_frame" value="$(arg robotname)/base_footprint"/>
+      <param name="base_frame"  value="$(arg robotname)/base_footprint"/>
+      <param name="imu_frame" value="$(arg robotname)/base_imu_link"/>
+      <param name="publish_odom_transform" value="False"/>
+    </node>
+
+   <!-- 启动激光雷达驱动包  -->
+  
+  
+  <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+    <param name="serial_port"         type="string" value="/dev/lidar"/>
+    <param name="serial_baudrate"     type="int"    value="115200"/><!--A1/A2 -->
+    <!--param name="serial_baudrate"     type="int"    value="256000"--><!--A3 -->
+    <param name="frame_id"            type="string" value="$(arg robotname)/laser"/>
+    <param name="inverted"            type="bool"   value="false"/>
+    <param name="angle_compensate"    type="bool"   value="true"/>
+    <param name="scan_mode" type="string" value="Boost"/>
+    <remap from="scan" to="scan_raw"/>
+  </node>
+    <!-- <param name="frame_id" value="$(arg robotname)/laser" /> -->
+
+
+  <include file="$(find xtark_ros_wrapper)/launch/xtark_depthcamera_new.launch" >
+    <arg name="robotname" value="$(arg robotname)"/>
+  </include>
+
+  <include file="$(find xtark_ros_wrapper)/launch/xtark_rgbcamera_new.launch" >
+    <arg name="robotname" value="$(arg robotname)"/>
+  </include>
+
+
+  <include file="$(find astra_launch)/launch/includes/astra_frames.launch">
+    <arg name="camera" value="camera" />
+    <arg name="tf_prefix" value="$(arg robotname)" />
+  </include>
+
+  <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_imu" args="0 0 0.05 1.57 0 0 $(arg robotname)/base_footprint $(arg robotname)/base_imu_link 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_foot_print_to_laser" args="0.1 0 0.1 3.1415926 0 0 $(arg robotname)/base_footprint $(arg robotname)/laser 20"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_camera" args="0.10 0 0.10 0 0 0 $(arg robotname)/base_footprint $(arg robotname)/camera_link 20"/>
+
+
+</launch>

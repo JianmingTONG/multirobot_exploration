@@ -1,0 +1,8 @@
+<launch>
+  <!-- 启动USB摄像头驱动包 -->
+  <include file="$(find xtark_ros_wrapper)/launch/xtark_bringup.launch"/>
+  <include file="$(find xtark_ros_wrapper)/launch/xtark_camera.launch"/>
+
+  <node name="self_check" pkg="xtark_ros_wrapper" type="self_check.py" output="screen" required="true"/>
+
+</launch>
