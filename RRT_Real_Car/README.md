@@ -2,6 +2,8 @@
 ## Summary
 This repo enables a single car to explore unknown environment autonomously using the RRT algorithm.
 
+support file contains the node file which implements conversion from continous map value to discrete value.
+ 
 ## Environment
 Car: xtark robot with SLAMTech A1 RPLIDAR. (Supporting codes are stored in the xtark subdirectory.)
 PC: 
