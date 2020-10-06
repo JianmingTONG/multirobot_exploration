@@ -1,0 +1,37 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/xuzhl/cartorgrapher_ros_ws/devel_isolated/xtark_ros_wrapper/include/**",
+                "/home/xuzhl/cartorgrapher_ros_ws/devel_isolated/robot_pose_ekf/include/**",
+                "/home/xuzhl/cartorgrapher_ros_ws/devel_isolated/cartographer_ros_msgs/include/**",
+                "/home/xuzhl/DSLAM_one/devel/include/**",
+                "/home/xuzhl/catkin_ws_d/devel/include/**",
+                "/home/xuzhl/catkin_ws/devel/include/**",
+                "/opt/ros/melodic/include/**",
+                "/home/xuzhl/cartorgrapher_ros_ws/devel_isolated/cartographer/include/**",
+                "/home/xuzhl/cartorgrapher_ros_ws/devel_isolated/ceres-solver/include/**",
+                "/home/xuzhl/catkin_ws_d/src/dslam_release/include/**",
+                "/home/xuzhl/catkin_ws/src/ROS-DSLAM/include/**",
+                "/home/xuzhl/DSLAM_one/src/ROS-DSLAM/include/**",
+                "/home/xuzhl/catkin_ws_d/src/m-explore/explore/include/**",
+                "/home/xuzhl/catkin_ws_d/src/m-explore/map_merge/include/**",
+                "/home/xuzhl/catkin_ws/src/octomap_demo/include/**",
+                "/home/xuzhl/catkin_ws/src/octomap_mapping/octomap_server/include/**",
+                "/home/xuzhl/cartorgrapher_ros_ws/src/robot_pose_ekf/include/**",
+                "/home/xuzhl/cartorgrapher_ros_ws/src/xtark_ctl/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
