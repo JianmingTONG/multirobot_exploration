@@ -139,9 +139,8 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME}_node src/mapmerge_node.cpp)
-add_executable(${PROJECT_NAME}_tf_node src/mapmerge_tf_node.cpp)
+
 add_executable(${PROJECT_NAME}_costmap_node src/costmapmerge_node.cpp)
-add_executable(${PROJECT_NAME}_costmap_tf_node src/costmapmerge_tf_node.cpp)
 
 
 ## Rename C++ executable without prefix
@@ -161,12 +160,7 @@ target_link_libraries(${PROJECT_NAME}_node
 target_link_libraries(${PROJECT_NAME}_costmap_node 
    ${catkin_LIBRARIES}
 )
-target_link_libraries(${PROJECT_NAME}_tf_node
-   ${catkin_LIBRARIES}
-)
-target_link_libraries(${PROJECT_NAME}_costmap_tf_node 
-   ${catkin_LIBRARIES}
-)
+
 
 #############
 ## Install ##
