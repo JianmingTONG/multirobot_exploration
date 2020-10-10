@@ -79,7 +79,7 @@ For two cars: Before runnning the two robots version. The ```#define SECOND_ROBO
 
 ```
 // Terminal 1
-roslaunch rrt_exploration_tutorials single_simulated_house.launch
+roslaunch rrt_exploration_tutorials multiple_simulated_house.launch
 
 // Terminal 2
 roslaunch rrt_exploration  two_sim_rrt_node.launch 
@@ -95,7 +95,7 @@ For single car
 roslaunch rrt_exploration_tutorials single_simulated_house.launch
 
 // Terminal 2
-roslaunch rrt_exploration  two_sim_rrt_node.launch 
+roslaunch rrt_exploration  single_sim_rrt_node.launch 
 
 // click one points at any place in RVIZ to start the exploration.
 ```
