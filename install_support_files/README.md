@@ -6,6 +6,7 @@ This repo consists of:
 ```
 sudo apt install ros-melodic-ecl*
 sudo apt install ros-melodic-slam-gmapping
+sudo apt install ros-melodic-bfl*
 
 
 ```
