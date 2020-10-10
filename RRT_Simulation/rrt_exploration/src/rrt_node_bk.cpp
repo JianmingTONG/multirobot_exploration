@@ -122,15 +122,35 @@ void costmapMergedCallBack(const nav_msgs::OccupancyGrid::ConstPtr& msg)
     
 }
 
+geometry_msgs::PointStamped clickedpoint_transformed;
+
+bool finishedTransform;
 geometry_msgs::Point p;  
 
 
-void rvizCallBack(const geometry_msgs::PointStamped::ConstPtr& msg)
+void rvizCallBack(const geometry_msgs::PointStamped::ConstPtr& msg, tf::TransformListener *listener)
 { 
-	p.x=msg->point.x;
-	p.y=msg->point.y;
-	p.z=msg->point.z;
+	finishedTransform=false;
+	
+	clickedpoint.header = msg->header;
+	clickedpoint.point = msg->point;
+	
+	while(!finishedTransform){
+		try{
+			listener->transformPoint(mapData.header.frame_id, clickedpoint, clickedpoint_transformed);
+			finishedTransform=true;
+		}
+		catch (tf::TransformException ex){
+			ROS_ERROR("%s",ex.what());
+			ros::Duration(1.0).sleep();
+		}
+	}
+
+	p.x=clickedpoint_transformed.point.x;
+	p.y=clickedpoint_transformed.point.y;
+	p.z=clickedpoint_transformed.point.z;
 	points.points.push_back(p);
+
 }
 
 
@@ -174,7 +194,7 @@ int main(int argc, char **argv)
 	ros::param::param<std::string>(nodename+"/map_topic", map_topic, "robot1/map"); 
     ros::param::param<std::string>(nodename+"/costmap_topic", costmap_topic, "robot1/move_base/global_costmap/costmap");
     ros::param::param<std::string>(nodename+"/robot_frame", robot_frame, "robot1/map");
-    ros::param::param<std::string>(nodename+"/robot_base_frame", robot_base_frame, "robot1/base_link");
+    ros::param::param<std::string>(nodename+"/robot_frame", robot_base_frame, "robot1/base_link");
     
     ros::param::param<int>(nodename+"/rate", rateHz, 20);
     ros::param::param<double>(nodename+"/info_radius", info_radius, 1.0);
@@ -188,7 +208,7 @@ int main(int argc, char **argv)
 	ros::Subscriber sub       = nh.subscribe(map_topic, 100 ,mapCallBack);	
     ros::Subscriber costMapSub= nh.subscribe<nav_msgs::OccupancyGrid>(costmap_topic, 10, costmapMergedCallBack);
 	
-    ros::Subscriber rviz_sub  = nh.subscribe<geometry_msgs::PointStamped>("/clicked_point", 10, rvizCallBack);
+    ros::Subscriber rviz_sub  = nh.subscribe<geometry_msgs::PointStamped>("/clicked_point", 10, boost::bind(&rvizCallBack, _1, &listener));
 
 	// -------------------------------------publish the detected points for following processing & display
 	ros::Publisher pub        = nh.advertise<visualization_msgs::Marker>(nodename+"_shapes", 10);
@@ -199,15 +219,15 @@ int main(int argc, char **argv)
     ros::Publisher goalMoveBasePub = nh.advertise<move_base_msgs::MoveBaseGoal>("/robot1/rrt_goal", 10);
 #endif
 	// -------------------------------------wait until map is received
-    std::cout << ns << "wait for map "<< std::endl;
-	while (mapData.header.seq < 1  or  mapData.data.size() < 1 ){  ros::spinOnce();  ros::Duration(0.1).sleep(); }
-	std::cout << ns << "wait for costmap "<< std::endl;
+    std::cout << "wait for map "<< std::endl;
+	while (mapData.header.seq<1     or mapData.data.size()<1    )  {  ros::spinOnce();  ros::Duration(0.1).sleep();}
+	std::cout << "wait for costmap "<< std::endl;
     while ( costmapData.data.size()<1)  {  ros::spinOnce();  ros::Duration(0.1).sleep();}
     
     // ------------------------------------- action lib
 #ifdef SEND_CPP_ACTIONLIB 
     actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac(ns + "/move_base", true);
-    std::cout << ns << "wait for actionserver"<< std::endl;
+    std::cout << "wait for actionserver"<< std::endl;
     ac.waitForServer();
 #endif
 #ifdef SEND_CPP_ACTIONLIB
@@ -254,7 +274,7 @@ int main(int argc, char **argv)
 	// -------------------------------------set the origin of the RRT
 	std::vector< std::vector<float>  > V;  
 	std::vector<float> xnew; 
-	std::cout << ns << "wait for transform"<< std::endl;
+	std::cout << "wait for transform"<< std::endl;
 	tf::StampedTransform transform;
 	int  temp=0;
 	while (temp==0){
@@ -279,10 +299,10 @@ int main(int argc, char **argv)
     previousGoalMapFrame.point.z         = 0;
 
 	
-	std:: cout << ns <<"RRT Tree starts growing origin: (" << xnew[0] << ", "  << xnew[1] << ")" << std::endl;
+	ROS_INFO("RRT Tree starts growing origin: %3.2f, %3.2f", xnew[0], xnew[1]);
 
     // -------------------------------------wait the clicked points  
-	std::cout << ns << "wait to start" << std::endl;
+	ROS_INFO("wait to start");
     while(points.points.size()<1)
 	{
 		ros::spinOnce();
@@ -345,45 +365,41 @@ int main(int argc, char **argv)
         else{
         // ------------------------------- find the goal which has the highest score.
             goal_score = -500;
-            std::cout <<  ns << "start goal filtering number of frontiers " << frontiers.size() << std::endl;
+            std::cout << "start goal filtering number of frontiers " << frontiers.size() << std::endl;
             listener.lookupTransform(mapData.header.frame_id, robot_base_frame, ros::Time(0), transform);
             goal_infoGain= 0.0;
             for(int i=0; i<frontiers.size(); i++){
                 double score, pixel;
                 infoGain = informationRectangleGain(mapData, frontiers[i], info_radius);
-                std::cout << ns <<  " infoGain " << infoGain << std::endl;
+                std::cout << " infoGain " << infoGain << std::endl;
                 pixel = mapValue(costmapData, frontiers[i]);
-                std::cout << ns <<"get pixel value "<< pixel << std::endl;
+                std::cout << "get pixel value "<< pixel << std::endl;
                 if(infoGain<0.2 || pixel > costmap_pixel_threshold){continue;}
                 score = infoGain - norm2Dpoints(transform.getOrigin().x(), transform.getOrigin().y(), frontiers[i]);
-                std::cout << ns <<"get score" << score << "goal_score" << goal_score << std::endl;
+                std::cout << "get score" << score << "goal_score" << goal_score << std::endl;
                 if(score > goal_score){
                     goal_score    = score;
                     goal_infoGain = infoGain;
                     goal_idx      = i;  
-                    std::cout << ns <<"replace goal: " << goal_idx << std::endl;
+                    std::cout << "replace goal: " << goal_idx << std::endl;
                 }
             }
-std::cout << ns <<  "Goal infoGain new: "<< goal_infoGain << "\n\n" << std::endl;
+std::cout << "Goal infoGain new: "<< goal_infoGain << "\n\n" << std::endl;
                 
 #ifdef SEND_PYTHON_ACTIONLIB 
             goalPub.publish(frontiers[goal_idx]);
 #endif
-            if(frontiers[goal_idx].header.frame_id != robot_frame){
-                try{
-                    // std::cout << "try converts wait for transform" << std::endl;
-                    if(listener.waitForTransform(frontiers[goal_idx].header.frame_id, robot_frame, ros::Time(0), ros::Duration(5))){
-                        // std::cout << "try converts goal point" << std::endl;
-                        listener.transformPoint(robot_frame, frontiers[goal_idx], goalRobotFrame);
-                        // std::cout << "convert done" << std::endl;
-                    }
-                }
-                catch (tf::TransformException ex){
-                    continue;
+
+            try{
+                // std::cout << "try converts wait for transform" << std::endl;
+                if(listener.waitForTransform(frontiers[goal_idx].header.frame_id, robot_frame, ros::Time(0), ros::Duration(5))){
+                    // std::cout << "try converts goal point" << std::endl;
+                    listener.transformPoint(robot_frame, frontiers[goal_idx], goalRobotFrame);
+                    // std::cout << "convert done" << std::endl;
                 }
             }
-            else{
-                goalRobotFrame = frontiers[goal_idx];
+            catch (tf::TransformException ex){
+                continue;
             }
 
 #if defined SEND_PYTHON_MOVEBASE 
@@ -413,22 +429,22 @@ std::cout << ns <<  "Goal infoGain new: "<< goal_infoGain << "\n\n" << std::endl
                 double score, pixel;
                 // std::cout << "start infoGain Calculating" << std::endl;
                 infoGain = informationRectangleGain(mapData, previousGoalMapFrame, info_radius);
-                std::cout << ns << "Previous Goal infoGain :" <<  infoGain << " vs new: "<< goal_infoGain << std::endl;
+                std::cout << "Previous Goal infoGain :" <<  infoGain << " vs new: "<< goal_infoGain << std::endl;
                 pixel = mapValue(costmapData, previousGoalMapFrame);
                 score = infoGain - norm2Dpoints(transform.getOrigin().x(), transform.getOrigin().y(), frontiers[goal_idx]);
-                std::cout << ns << "Previous Goal distance cost :" <<  norm2Dpoints(transform.getOrigin().x(), transform.getOrigin().y(), frontiers[goal_idx]) << std::endl;
-                std::cout << ns << "previous goal pixel data:" << pixel << std::endl;
+                std::cout << "Previous Goal distance cost :" <<  norm2Dpoints(transform.getOrigin().x(), transform.getOrigin().y(), frontiers[goal_idx]) << std::endl;
+                std::cout << "previous goal pixel data:" << pixel << std::endl;
                 if( ((goal_infoGain - infoGain > 0.2) && (goal_score - score>1)) || pixel > costmap_pixel_threshold){
                     previousGoalMapFrame = frontiers[goal_idx];
                     ac.sendGoal(robotGoal);
-                    std::cout << ns << "goal: (" << robotGoal.target_pose.pose.position.x << ", " << robotGoal.target_pose.pose.position.y << ") " << std::endl;
+                    std::cout << "goal: (" << robotGoal.target_pose.pose.position.x << ", " << robotGoal.target_pose.pose.position.y << ") " << std::endl;
                 }
             }
 #endif
-            std::cout << ns <<  "flush frontiers" << std::endl;
+            std::cout << "flush frontiers" << std::endl;
             frontiers.clear();
             std::vector<geometry_msgs::PointStamped>().swap(frontiers);
-            std::cout << ns << "loop ends\n\n" << std::endl;
+            std::cout << "loop ends\n\n" << std::endl;
         }
 
         

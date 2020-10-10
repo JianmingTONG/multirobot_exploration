@@ -115,7 +115,7 @@ int main(int argc, char **argv){
     std::string ns, robot1_mapTopic, robot2_mapTopic;
     ns=ros::this_node::getName();
 
-    ros::param::param<string>(ns + "/robot1costmap", robot1_mapTopic, "/robot1/move_base_node/global_costmap/costmap");
+    ros::param::param<string>(ns + "/robot1costmap", robot1_mapTopic, "/robot1/move_base/global_costmap/costmap");
     ros::Subscriber sub1= n.subscribe(robot1_mapTopic, 10 ,mapCallBack1);	
     float robot1_x, robot1_y; 
     ros::param::param<float>(ns + "/robot1_x", robot1_x, 0.0);
@@ -123,7 +123,7 @@ int main(int argc, char **argv){
     ROS_INFO("robot1_location: (%3.1f, %3.1f)", robot1_x, robot1_y);
 
     #ifdef SECOND_ROBOT 
-    ros::param::param<string>(ns + "/robot2costmap", robot2_mapTopic, "/robot2/move_base_node/global_costmap/costmap");
+    ros::param::param<string>(ns + "/robot2costmap", robot2_mapTopic, "/robot2/move_base/global_costmap/costmap");
     ros::Subscriber sub2= n.subscribe(robot2_mapTopic, 10 ,mapCallBack2);
     float robot2_x, robot2_y;
     ros::param::param<float>(ns + "/robot2_x", robot2_x, 0.0); 
@@ -132,8 +132,8 @@ int main(int argc, char **argv){
     #endif
 
     #ifdef THIRD_ROBOT 
-    ros::param::param<string>(ns + "/robot3costmap", robot3_mapTopic, "/robot3/move_base_node/global_costmap/costmap");
-    ros::Subscriber sub3= n.subscribe("/robot3/move_base_node/global_costmap/costmap", 10 ,mapCallBack3);
+    ros::param::param<string>(ns + "/robot3costmap", robot3_mapTopic, "/robot3/move_base/global_costmap/costmap");
+    ros::Subscriber sub3= n.subscribe("/robot3/move_base/global_costmap/costmap", 10 ,mapCallBack3);
     float  robot3_x, robot3_y;
     ros::param::param<float>(ns + "/robot3_x", robot3_x, 0.0);
     ros::param::param<float>(ns + "/robot3_y", robot3_y, 0.8); 
