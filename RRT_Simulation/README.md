@@ -1,6 +1,6 @@
 # Overview
 
-This repo is simulation version of RRT Exploration for single robot or multiple robots.
+This repo is the simulation version of RRT Exploration for single robot or multiple robots.
 
 
 ## Environment
@@ -38,6 +38,8 @@ rosdep udpate
 ### kobuki related packages
 kobuki related packages are not installed by default when installing the ros-melodic-desktop-full.
 Two Packages need to be installed on your ubuntu system.
+
+#### PLAN A
 1. kobuki_desktop
 ```
 mkdir ~/kobuki_desktop_ws && cd ~/kobuki_desktop_ws
@@ -54,6 +56,9 @@ git clone https://github.com/yujinrobot/kobuki_msgs
 cd ../
 rosdep install --from-paths src --ignore-src -r -y
 ```
+#### PLAN B
+For simplification, we put all supporting files under the install_support_files directory of this repo. Follow README.md in that directory to install environment requirements.
+
 
 ### Map Merge
 The relative poses and transformations are manually setup in the .launch file. 
