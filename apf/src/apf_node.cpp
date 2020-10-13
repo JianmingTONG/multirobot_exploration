@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
     ros::param::param<std::string>(nodename+"/costmap_topic", costmap_topic, "robot1/move_base/global_costmap/costmap");
     ros::param::param<std::string>(nodename+"/robot_base_frame", robot_base_frame, "robot1/base_link");
     ros::param::param<std::string>(nodename+"/robot_frame", robot_frame, "robot1/base_link");
-    ros::param::param<std::string>(nodename+"/namespace", ns, "robot1/");
+    ros::param::param<std::string>(nodename+"/namespace", ns, "robot1");
     ros::param::param<int>(nodename+"/rate", rateHz, 1);
     ros::param::param<float>(nodename+"/inflation_radius", inflation_radius, 4);
     
@@ -467,6 +467,14 @@ int main(int argc, char** argv) {
                             iter++;
                         }
                         dismap[curr_around[0]][curr_around[1]] = 0.1;
+                        
+                        // ----  reset invalid targets' distance value to 1000.
+                        for (int i = 0; i < targets.size(); i++){
+                            if(  (dismap[targets[i][0]][targets[i][1]] == 0) && ( (abs(targets[i][0] - curr_around[0]) + abs(targets[i][1] - curr_around[1])) > 1) ) {
+                                dismap[targets[i][0]][targets[i][1]] = 1000;
+                            }
+                        }
+
                     }
                     // std::ofstream ofile_int;
                     // ofile_int.open("/home/nics/work/ROS_BACKUP/catkin_ws/src/apf/output_dismap1.txt");
@@ -613,6 +621,13 @@ int main(int argc, char** argv) {
                     iter++;
                 }
                 dismap[currentLoc[0]][currentLoc[1]] = 0.1;
+                // ----  reset invalid targets' distance value to 1000.
+                for (int i = 0; i < targets.size(); i++){
+                    if(  (dismap[targets[i][0]][targets[i][1]] == 0) && ( (abs(targets[i][0] - currentLoc[0]) + abs(targets[i][1] - currentLoc[1])) > 1) ) {
+                        dismap[targets[i][0]][targets[i][1]] = 1000;
+                    }
+                }
+                
             }
 
             for (int i = 0; i < targets.size() ; i++){
