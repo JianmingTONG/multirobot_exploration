@@ -1,0 +1,15 @@
+<launch>
+  <!-- <param name="/use_sim_time" value="true" /> -->
+  <arg name="gemweightspath" default="/home/jimmy/work/ROS_work/ZhilinXuCode/dslam_ws/src/dslam_release/script/ROS_GEM/weights/gem.pth" />
+
+  <include file="/home/jimmy/work/ROS_work/ZhilinXuCode/dslam_ws/src/dslam_release/launch/xtark_mapping_multi_sim_wo_gem.launch">
+    <arg name="robotname" value="robot1"/>
+    <arg name="gemweightspath" value="$(arg gemweightspath)" />
+  </include>
+
+  <include file="/home/jimmy/work/ROS_work/ZhilinXuCode/dslam_ws/src/dslam_release/launch/xtark_mapping_multi_sim_wo_gem.launch">
+    <arg name="robotname" value="robot2"/>
+    <arg name="gemweightspath" value="$(arg gemweightspath)" />
+  </include>
+  
+</launch>

@@ -1,0 +1,15 @@
+<launch>
+  <!-- <param name="/use_sim_time" value="true" /> -->
+  <arg name="weightspath" default="$(find xtark_ros_wrapper)/script/model_test.ckpt" />
+
+  <include file="$(find xtark_ros_wrapper)/launch/xtark_mapping_multi_sim_pointnet.launch">
+    <arg name="robotname" value="robot1"/>
+    <arg name="weightspath" value="$(arg weightspath)" />
+  </include>
+
+  <include file="$(find xtark_ros_wrapper)/launch/xtark_mapping_multi_sim_pointnet.launch">
+    <arg name="robotname" value="robot2"/>
+    <arg name="weightspath" value="$(arg weightspath)" />
+  </include>
+  
+</launch>

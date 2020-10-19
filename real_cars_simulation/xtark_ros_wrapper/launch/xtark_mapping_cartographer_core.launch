@@ -1,0 +1,59 @@
+<launch>
+
+  <arg name="robotname" default="robot2"/>
+
+
+  <!-- <param name="robot_description"
+    textfile="$(find cartographer_ros)/urdf/xtark_robot.urdf" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+    type="robot_state_publisher" /> -->
+    
+  <!-- 启动EKF融合定位节点 -->
+  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf" output="screen">
+    <param name="output_frame" value="$(arg robotname)/odom"/>
+    <param name="base_footprint_frame" value="$(arg robotname)/base_footprint"/>
+	  <param name="imu_frame" value="$(arg robotname)/base_imu_link"/>
+    <param name="freq" value="30.0"/>
+    <param name="sensor_timeout" value="0.5"/>
+    <param name="odom_used" value="true"/>
+    <param name="imu_used"  value="true"/>
+    <param name="vo_used"   value="false"/>
+    
+    <remap from="odom" to="odom_raw"/>
+    <remap from="imu_data" to="imu"/>
+    <remap from="robot_pose_ekf/odom_combined" to="odom_combined"/>
+  </node>
+  
+  <node pkg="xtark_ros_wrapper" type="odom_ekf.py" name="odom_ekf_node" args="-c $(arg robotname)/base_footprint" output="screen">
+    <remap from="input" to="odom_combined"/>
+    <remap from="output" to="odom"/>
+  </node>
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="log" name="laser_filter" >
+    <rosparam command="load" file="$(find xtark_ros_wrapper)/config/xtark_laserfilter_$(arg robotname).yaml"/>
+    <!-- <rosparam command="load" file="$(find xtark_ctl)/config/xtark_laserfilter.yaml"/> -->
+    <remap from="scan" to="scan_raw"/>
+    <remap from="scan_filtered" to="scan"/>
+  </node>
+
+
+
+  <node name="cartographer_node" pkg="cartographer_ros"
+      type="cartographer_node" args="
+          -configuration_directory $(find xtark_ros_wrapper)/config
+          -configuration_basename xtark_$(arg robotname).lua"
+      output="screen">
+    <remap from="scan" to="scan" />
+    <remap from="submap_list" to="submap_list" />
+  </node>
+
+  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
+      type="cartographer_occupancy_grid_node" args="-resolution 0.05" >
+    <remap from="submap_list" to="submap_list" />
+  </node>
+    
+  <!-- <node name="rviz" pkg="rviz" type="rviz" required="true"
+      args="-d $(find cartographer_ros)/configuration_files/xtark_cartographer_1.rviz" /> -->
+
+</launch>

@@ -1,0 +1,23 @@
+<!-- Launch file for the rrt-detector and the assigner -->
+
+
+<launch>
+  <arg name="namespace" value="robot1"/>
+  <param name="namespace_init_count" value="1"/>
+
+
+  <node pkg="apf" type="apf_node" name="$(arg namespace)_apf" output="screen">
+    <param name="map_topic" value="$(arg namespace)/map"/>
+    <param name="costmap_topic" value="$(arg namespace)/move_base/global_costmap/costmap"/>
+    <param name="robot_base_frame" value="$(arg namespace)/base_link"/>
+    <param name="rate" value="1"/>
+    <param name="robot_frame" value="$(arg namespace)/map"/>
+    <param name="namespace" value="$(arg namespace)"/> 
+  </node>
+
+  <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find rrt_exploration_tutorials)/launch/includes/rviz_config/single_sim_apf_node.rviz" /> -->
+
+</launch>
+
+
+

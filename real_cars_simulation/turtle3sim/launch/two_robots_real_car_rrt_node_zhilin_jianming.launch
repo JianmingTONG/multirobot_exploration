@@ -1,0 +1,52 @@
+<!-- Launch file for the rrt-detector and the assigner -->
+
+<launch>
+  <arg name="eta" value="1.0"/>
+  <arg name="Geta" value="1.0"/>
+  <arg name="namespace1" value="robot1"/>
+  <arg name="namespace2" value="robot2"/>
+
+  <param name="namespace_init_count" value="1"/>
+
+  <node pkg="rrt_exploration_real_two_cars" type="rrt_node_real_two_cars" name="robot1_rrt" output="screen">
+    <param name="eta" value="$(arg eta)"/>
+    <param name="map_topic" value="$(arg namespace1)/map"/>
+    <param name="costmap_topic" value="$(arg namespace1)/move_base/global_costmap/costmap"/>
+    <!-- <param name="costmap_topic" value="/robot1/costmap"/> -->
+    <param name="frontier_topic" value="$(arg namespace1)/frontiers"/>
+    <param name="robot_frame" value="$(arg namespace1)/map"/>
+    <param name="robot_base_frame" value="$(arg namespace1)/base_footprint"/>
+    <param name="info_radius" value="1"/> 
+    <param name="costmap_pixel_threshold" value="0"/> 
+    <param name="namespace" value="$(arg namespace1)"/> 
+    <param name="rate" value="100"/>
+  </node>
+
+  <node pkg="rrt_exploration_real_two_cars" type="rrt_node_real_two_cars" name="robot2_rrt" output="screen">
+    <param name="eta" value="$(arg eta)"/>
+    <param name="map_topic" value="$(arg namespace2)/map"/>
+    <param name="costmap_topic" value="$(arg namespace2)/move_base/global_costmap/costmap"/>
+    <!-- <param name="costmap_topic" value="/robot1/costmap"/> -->
+    <param name="frontier_topic" value="$(arg namespace2)/frontiers"/>
+    <param name="robot_frame" value="$(arg namespace2)/map"/>
+    <param name="robot_base_frame" value="$(arg namespace2)/base_footprint"/>
+    <param name="info_radius" value="1"/> 
+    <param name="costmap_pixel_threshold" value="0"/> 
+    <param name="namespace" value="$(arg namespace2)"/> 
+    <param name="rate" value="100"/>
+  </node>
+
+
+  <!-- run RViz node (visualization) -->
+  <node pkg="rviz" type="rviz" name="rviz_robot1" args="-d $(find rrt_exploration_real_two_cars)/rviz/robot1_two_real_cars_rrt_node.rviz">
+  <!-- <remap from="move_base_simple/goal" to="robot1/move_base_simple/goal"/> -->
+  </node>
+
+  <node pkg="rviz" type="rviz" name="rviz_robot2" args="-d $(find rrt_exploration_real_two_cars)/rviz/robot2_two_real_cars_rrt_node.rviz">
+  <!-- <remap from="move_base_simple/goal" to="robot1/move_base_simple/goal"/> -->
+  </node>
+
+</launch>
+
+
+
