@@ -33,7 +33,7 @@ roslaunch multirobot_map_merge xtark_mapping_2robot_sim.launch
 ### merge submaps only using cartographer submaps
 
 
-luanch file /m-explore/map_merge/xtark_mapping_multi_sim_wo_gem.launch
+launch file /m-explore/map_merge/xtark_mapping_multi_sim_wo_gem.launch
 
 1. change line 4 of <...>/m-explore/map_merge/launch/xtark_mapping_multi_sim_wo_gem.launch to <...>/m-explore/map_merge/include/weights/gem.pth
 2. change line 36: robot_map_topic value to the name of cartographer output map.

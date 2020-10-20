@@ -192,6 +192,7 @@ class MultiRobotTF_Publisher:
                     matched_info['tf'] = map2_to_map1_msg
                     self.matched_list.append(matched_info)
                     
+                    print("self.matched_list"+str(self.matched_list))
                     tf = {'x':[], 'y':[], 'z':[], 'a':[], 'b':[]}
                     for matched_info in self.matched_list: # 统计tf
                         if matched_info['robot1_id'] == self_id and matched_info['robot2_id'] == other_id:
@@ -205,8 +206,9 @@ class MultiRobotTF_Publisher:
                             tf['x'].append(tf_tmp.translation.x)
                             tf['y'].append(tf_tmp.translation.y)
                             tf['z'].append(tf_tmp.translation.z)
-                            tf['a'].append(math.sin(2*math.atan(tf_tmp.rotation.z/tf_tmp.rotation.z)))
-                            tf['b'].append(math.cos(2*math.atan(tf_tmp.rotation.z/tf_tmp.rotation.z)))
+                            tf['a'].append(math.sin(2*math.atan(tf_tmp.rotation.z/tf_tmp.rotation.w)))
+                            tf['b'].append(math.cos(2*math.atan(tf_tmp.rotation.z/tf_tmp.rotation.w)))
+                    print("before pop tf:"+ str(tf))
                     if len(tf['x'])>=3: # 计算平均值、标准差，剔除离群点
                         mean_x = np.mean(tf['x'])
                         mean_y = np.mean(tf['y'])
@@ -229,6 +231,7 @@ class MultiRobotTF_Publisher:
                                 tf['b'].pop(i)
                             else:
                                 i += 1
+                    print("after pop tf:"+ str(tf))
                     if len(tf['x'])>=1:
                         pub_tf = TransformStamped()
                         pub_tf.transform.translation.x = np.mean(tf['x'])
@@ -237,6 +240,7 @@ class MultiRobotTF_Publisher:
                         pub_tf.transform.rotation.z = math.sin(math.atan2(np.mean(tf['a']),np.mean(tf['b']))/2)
                         pub_tf.transform.rotation.w = math.cos(math.atan2(np.mean(tf['a']),np.mean(tf['b']))/2)
                         pub_tf.header.stamp = rospy.Time.now()
+                        print("before inverse:"+str(pub_tf))
                         if self_id > other_id:
                             pub_tf.header.frame_id = '{}/map'.format(other_id)
                             pub_tf.child_frame_id = '{}/map'.format(self_id)
@@ -245,7 +249,7 @@ class MultiRobotTF_Publisher:
                             pub_tf.child_frame_id = '{}/map'.format(other_id)
                             pub_tf.transform = pose2trans(posemath.toMsg(posemath.fromMsg(trans2pose(pub_tf.transform)).Inverse()))
                         self.br.sendTransformMessage(pub_tf)
-                        print(pub_tf)
+                        print("after inverse:"+str(pub_tf))
         
             print("nn_results:"+str(results))
             print("confidence_list:"+str(confidence_list))
